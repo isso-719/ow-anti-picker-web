@@ -10,7 +10,7 @@ import (
 func main() {
 	e := echo.New()
 	initRouting(e)
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
 
 type TemplateRenderer struct {
