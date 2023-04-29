@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>OverWatch2 アンチピッカー</title>
+</head>
+
+<body>
+<h1>OverWatch2 アンチキャラピッカー</h1>
+<div>
+  <h2>敵のキャラ選択</h2>
+  <label for="enemy0">敵のヒーローを選択</label>
+  <select id="enemy0" name="enemy0">{{range index . "allHeroList"}}
+      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <br>
+  <label for="enemy1">敵のヒーローを選択</label>
+  <select id="enemy1" name="enemy1">{{range index . "allHeroList"}}
+      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <br>
+  <label for="enemy2">敵のヒーローを選択</label>
+  <select id="enemy2" name="enemy2">{{range index . "allHeroList"}}
+      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <br>
+  <label for="enemy3">敵のヒーローを選択</label>
+  <select id="enemy3" name="enemy3">{{range index . "allHeroList"}}
+      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <br>
+  <label for="enemy4">敵のヒーローを選択</label>
+  <select id="enemy4" name="enemy4">{{range index . "allHeroList"}}
+      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <br>
+  <br>
+  <button id="show-anti-pick" onclick="ShowAntiPick();">アンチピック表示</button>
+</div>
+<div>
+  <h2>アンチピック</h2>
+  <div id="anti-pick-list">
+  </div>
+</div>
+<script>
+    function ShowAntiPick() {
+        var enemy0 = document.getElementById("enemy0").value;
+        var enemy1 = document.getElementById("enemy1").value;
+        var enemy2 = document.getElementById("enemy2").value;
+        var enemy3 = document.getElementById("enemy3").value;
+        var enemy4 = document.getElementById("enemy4").value;
+
+        var enemyHeroList = [enemy0, enemy1, enemy2, enemy3, enemy4];
+
+        var reqBody = {
+            "enemy_hero_list": enemyHeroList
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/get-anti-pick', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(reqBody));
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var antiPickList = document.getElementById("anti-pick-list");
+                antiPickList.innerHTML = "";
+
+                var res = JSON.parse(xhr.responseText);
+                for (var i = 0; i < res.anti_pick_list.length; i++) {
+                    var antiPick = res.anti_pick_list[i];
+                    var antiPickDiv = document.createElement("div");
+                    antiPickDiv.innerHTML = antiPick;
+                    antiPickList.appendChild(antiPickDiv);
+                }
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
