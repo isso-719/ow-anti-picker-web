@@ -3,8 +3,11 @@ module ow-anti-picker-web
 go 1.20
 
 require (
-	github.com/isso-719/ow-anti-picker v1.0.0 // indirect
-	github.com/labstack/echo v3.3.10+incompatible // indirect
+	github.com/isso-719/ow-anti-picker v1.0.0
+	github.com/labstack/echo v3.3.10+incompatible
+)
+
+require (
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
