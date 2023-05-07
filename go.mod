@@ -3,7 +3,7 @@ module ow-anti-picker-web
 go 1.20
 
 require (
-	github.com/isso-719/ow-anti-picker v1.0.0
+	github.com/isso-719/ow-anti-picker v1.0.1
 	github.com/labstack/echo v3.3.10+incompatible
 )
 
