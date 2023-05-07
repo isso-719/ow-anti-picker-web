@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+h1, h2 {
+    margin: 20px;
+}
+
+#hero-list-wrap {
+    display: flex;
+    flex-direction: column;
+    max-width: 564px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hero-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+@media screen and (max-width: 564px) {
+    .hero-list {
+        justify-content: center;
+    }
+}
+
+.hero-card {
+    width: 72px;
+    height: 96px;
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    text-align: center;
+}
+
+.hero-card img {
+    width: 64px;
+    height: 64px;
+}
+
+#show-anti-pick {
+    margin: 0 auto;
+    width: 320px;
+    height: 36px;
+}
+
+#anti-pick-list {
+    text-align: center;
+}

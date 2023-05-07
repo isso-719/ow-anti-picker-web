@@ -31,6 +31,8 @@ func initRouting(e *echo.Echo) {
 
 	apiGroup := e.Group("/api")
 	apiGroup.POST("/get-anti-pick", src.GetAntiPick)
+
+	e.Static("/public", "public")
 }
 
 func initTemplate(e *echo.Echo) {

@@ -5,36 +5,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/public/css/index.css">
   <title>OverWatch2 アンチピッカー</title>
 </head>
 
 <body>
 <h1>OverWatch2 アンチキャラピッカー</h1>
 <div>
-  <h2>敵のキャラ選択</h2>
-  <label for="enemy0">敵のヒーローを選択</label>
-  <select id="enemy0" name="enemy0">{{range index . "allHeroList"}}
-      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+  <h2>敵のヒーローを選択</h2>
+    <div id="hero-list-wrap">
+      <h3>タンク</h3>
+      <div id="tank-hero-list" class="hero-list">
+        {{range index . "tank_hero_list"}}
+          <div class="hero-card">
+            <input type="checkbox" id="enemies-{{.ID}}" name="enemies" value="{{.ID}}">
+            <label for="enemies-{{.ID}}">
+              {{.Name}}
+              <img src="{{.Image}}" alt="{{.Name}}">
+            </label>
+          </div>
+        {{end}}
+      </div>
+      <h3>ダメージ</h3>
+      <div id="damage-hero-list" class="hero-list">
+        {{range index . "damage_hero_list"}}
+          <div class="hero-card">
+            <input type="checkbox" id="enemies-{{.ID}}" name="enemies" value="{{.ID}}">
+            <label for="enemies-{{.ID}}">
+              {{.Name}}
+              <img src="{{.Image}}" alt="{{.Name}}">
+            </label>
+          </div>
+        {{end}}
+      </div>
+      <h3>サポート</h3>
+      <div id="support-hero-list" class="hero-list">
+        {{range index . "support_hero_list"}}
+          <div class="hero-card">
+            <input type="checkbox" id="enemies-{{.ID}}" name="enemies" value="{{.ID}}">
+            <label for="enemies-{{.ID}}">
+              {{.Name}}
+              <img src="{{.Image}}" alt="{{.Name}}">
+            </label>
+          </div>
+        {{end}}
+      </div>
+      <button id="show-anti-pick" onclick="ShowAntiPick();">アンチピック表示</button>
+    </div>
   <br>
-  <label for="enemy1">敵のヒーローを選択</label>
-  <select id="enemy1" name="enemy1">{{range index . "allHeroList"}}
-      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
-  <br>
-  <label for="enemy2">敵のヒーローを選択</label>
-  <select id="enemy2" name="enemy2">{{range index . "allHeroList"}}
-      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
-  <br>
-  <label for="enemy3">敵のヒーローを選択</label>
-  <select id="enemy3" name="enemy3">{{range index . "allHeroList"}}
-      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
-  <br>
-  <label for="enemy4">敵のヒーローを選択</label>
-  <select id="enemy4" name="enemy4">{{range index . "allHeroList"}}
-      <option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
-  <br>
-  <br>
-  <button id="show-anti-pick" onclick="ShowAntiPick();">アンチピック表示</button>
 </div>
+<br>
+<br>
 <div>
   <h2>アンチピック</h2>
   <div id="anti-pick-list">
@@ -42,22 +63,25 @@
 </div>
 <script>
     function ShowAntiPick() {
-        var enemy0 = document.getElementById("enemy0").value;
-        var enemy1 = document.getElementById("enemy1").value;
-        var enemy2 = document.getElementById("enemy2").value;
-        var enemy3 = document.getElementById("enemy3").value;
-        var enemy4 = document.getElementById("enemy4").value;
-
-        var enemyHeroList = [enemy0, enemy1, enemy2, enemy3, enemy4];
-
-        var reqBody = {
-            "enemy_hero_list": enemyHeroList
+        var enemyHeroList = [];
+        var enemies = document.getElementsByName("enemies");
+        if (enemies.length === 0) {
+            return;
+        }
+        for (var i = 0; i < enemies.length; i++) {
+            if (enemies[i].checked) {
+                enemyHeroList.push(enemies[i].value);
+            }
         }
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/get-anti-pick', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(reqBody));
+        xhr.send(JSON.stringify(
+            {
+                "enemy_hero_list": enemyHeroList
+            }
+        ));
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -72,6 +96,7 @@
                     antiPickList.appendChild(antiPickDiv);
                 }
             }
+            window.scrollTo(0, document.body.scrollHeight);
         }
     }
 </script>
